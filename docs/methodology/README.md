@@ -4,47 +4,51 @@
 
 This project is a workout tracking system with two interfaces:
 
-### AI Agent (CLI)
-An AI agent uses the CLI to track the user's workouts. The agent:
-- Logs sets, reps, and weights after each exercise
-- Creates and manages workout sessions
-- Tracks progress and provides insights
-- Uses analysis commands to understand training patterns
-
-### User (Web Dashboard)
-The user uses the web dashboard to:
+### Web Dashboard
+The primary interface for users to:
+- Log workouts manually
 - View workout history and statistics
 - Track progress with charts and graphs
 - Manage goals and routines
 - Visualize calendar and scheduled workouts
-- See their overall training status
+- See overall training status
+
+### AI Coach (CLI)
+An optional AI agent that uses the CLI to help the user:
+- Log sets, reps, and weights after each exercise
+- Provide workout suggestions and progressions
+- Analyze training patterns
+- Act as a virtual coach
+
+The agent is optional - the user can track workouts directly via the dashboard without using the agent.
 
 ## Architecture
 
 ```
 ┌─────────────────┐
-│  AI Agent       │ ← Uses CLI to track workouts
+│  Web Dashboard  │ ← Primary interface for user
 └────────┬────────┘
          │
          ▼
     ┌─────────┐
-    │   CLI   │ ← Source of truth
+    │   Data  │ ← Single source of truth
     └────┬────┘
          │
          ▼
     ┌─────────┐
-    │   Data  │ ← SQLite/JSON storage
+    │   CLI   │ ← For AI agent + manual CLI usage
     └─────────┘
          │
          ▼
 ┌────────┴────────┐
-│  Web Dashboard │ ← UI layer for user
+│   AI Agent      │ ← Optional coach assistant
 └─────────────────┘
 ```
 
 ## Principles
 
-1. **CLI is the source of truth** - All data operations go through CLI
-2. **Agent-driven tracking** - AI agent logs workouts via CLI
-3. **Dashboard for viewing** - User interacts mainly through visual interface
-4. **Documentation first** - Features are specified before implementation
+1. **Data is the source of truth** - Single storage, accessible by both dashboard and CLI
+2. **Dashboard-first** - Primary interface for users
+3. **CLI for automation** - Enables AI agent to interact with data
+4. **Agent is optional** - User can track workouts without AI assistance
+5. **Documentation first** - Features are specified before implementation
