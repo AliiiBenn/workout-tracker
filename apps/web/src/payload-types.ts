@@ -63,11 +63,11 @@ export type SupportedTimezones =
 
 export interface Config {
   auth: {
-    users: UserAuthOperations;
+    'payload-admins': PayloadAdminAuthOperations;
   };
   blocks: {};
   collections: {
-    users: User;
+    'payload-admins': PayloadAdmin;
     media: Media;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -76,7 +76,7 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
+    'payload-admins': PayloadAdminsSelect<false> | PayloadAdminsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -93,13 +93,13 @@ export interface Config {
   widgets: {
     collections: CollectionsWidget;
   };
-  user: User;
+  user: PayloadAdmin;
   jobs: {
     tasks: unknown;
     workflows: unknown;
   };
 }
-export interface UserAuthOperations {
+export interface PayloadAdminAuthOperations {
   forgotPassword: {
     email: string;
     password: string;
@@ -119,9 +119,9 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
+ * via the `definition` "payload-admins".
  */
-export interface User {
+export interface PayloadAdmin {
   id: number;
   updatedAt: string;
   createdAt: string;
@@ -140,7 +140,7 @@ export interface User {
       }[]
     | null;
   password?: string | null;
-  collection: 'users';
+  collection: 'payload-admins';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -186,8 +186,8 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'users';
-        value: number | User;
+        relationTo: 'payload-admins';
+        value: number | PayloadAdmin;
       } | null)
     | ({
         relationTo: 'media';
@@ -195,8 +195,8 @@ export interface PayloadLockedDocument {
       } | null);
   globalSlug?: string | null;
   user: {
-    relationTo: 'users';
-    value: number | User;
+    relationTo: 'payload-admins';
+    value: number | PayloadAdmin;
   };
   updatedAt: string;
   createdAt: string;
@@ -208,8 +208,8 @@ export interface PayloadLockedDocument {
 export interface PayloadPreference {
   id: number;
   user: {
-    relationTo: 'users';
-    value: number | User;
+    relationTo: 'payload-admins';
+    value: number | PayloadAdmin;
   };
   key?: string | null;
   value?:
@@ -237,9 +237,9 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
+ * via the `definition` "payload-admins_select".
  */
-export interface UsersSelect<T extends boolean = true> {
+export interface PayloadAdminsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   email?: T;

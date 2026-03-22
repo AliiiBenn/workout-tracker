@@ -42,3 +42,4 @@ Training Register
 - Goals are defined in `10-goals.md`
 - Scheduling and planning are defined in `11-scheduling.md`
 - Unlocks & gamification are defined in `12-unlocks.md`
+- User profile is defined in `13-profile.md`
