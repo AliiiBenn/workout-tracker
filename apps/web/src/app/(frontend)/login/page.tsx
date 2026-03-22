@@ -14,15 +14,37 @@ import {
   CardTitle
 } from "@/components/ui/card"
 import { AppHeader } from "@/components/headers/app-header"
+import { authClient } from "@/lib/auth-client"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export default function LoginPage() {
+  const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsLoading(true)
-    setTimeout(() => setIsLoading(false), 1500)
+    setError(null)
+
+    const formData = new FormData(e.currentTarget)
+    const email = formData.get('email') as string
+    const password = formData.get('password') as string
+
+    const { error: signInError } = await authClient.signIn.email({
+      email,
+      password,
+    })
+
+    if (signInError) {
+      setError(signInError.message)
+      setIsLoading(false)
+      return
+    }
+
+    router.push('/home')
+    router.refresh()
   }
 
   return (
@@ -41,12 +63,19 @@ export default function LoginPage() {
 
           <CardContent className="px-6 pb-6 pt-6">
             <form onSubmit={onSubmit} className="space-y-4">
+              {error && (
+                <div className="text-sm text-red-500 bg-red-50 p-2 rounded-none border border-red-200">
+                  {error}
+                </div>
+              )}
+
               <div className="space-y-1.5">
                 <Label htmlFor="email" className="text-xs font-medium">
                   Email
                 </Label>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="m@example.com"
                   required
@@ -65,6 +94,7 @@ export default function LoginPage() {
                 </div>
                 <PasswordInput
                   id="password"
+                  name="password"
                   required
                   className="h-9"
                 />
