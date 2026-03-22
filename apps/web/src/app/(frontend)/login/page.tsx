@@ -38,7 +38,7 @@ export default function LoginPage() {
     })
 
     if (signInError) {
-      setError(signInError.message)
+      setError(signInError.message || "An error occurred")
       setIsLoading(false)
       return
     }

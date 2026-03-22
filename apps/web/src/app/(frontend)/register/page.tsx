@@ -47,7 +47,7 @@ export default function RegisterPage() {
     })
 
     if (signUpError) {
-      setError(signUpError.message)
+      setError(signUpError.message || "Failed to sign up")
       setIsLoading(false)
       return
     }
